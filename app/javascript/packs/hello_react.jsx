@@ -1,26 +1,34 @@
-// Run this example by adding <%= javascript_pack_tag 'hello_react' %> to the head of your layout file,
-// like app/views/layouts/application.html.erb. All it does is render <div>Hello React</div> at the bottom
-// of the page.
-
 import React from 'react'
 import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
+import { DatePicker, message, LocaleProvider } from 'antd';
+import enUS from 'antd/lib/locale-provider/en_US';
 
-const Hello = props => (
-  <div>Hello {props.name}!</div>
-)
-
-Hello.defaultProps = {
-  name: 'David'
-}
-
-Hello.propTypes = {
-  name: PropTypes.string
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: '',
+    };
+  }
+  handleChange(date) {
+    message.info('Selected Date: ' + date.toString());
+    this.setState({ date });
+  }
+  render() {
+    return (
+      <div style={{ width: 400, margin: '100px auto' }}>
+        <DatePicker onChange={value => this.handleChange(value)} />
+        <div style={{ marginTop: 20 }}>Date: {this.state.date.toString()}</div>
+      </div>
+    );
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Hello name="React" />,
+    <LocaleProvider locale={enUS}>
+      <App />
+    </LocaleProvider>,
     document.body.appendChild(document.createElement('div')),
   )
 })
